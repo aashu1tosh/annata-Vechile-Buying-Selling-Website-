@@ -1,16 +1,33 @@
-import Navbar from '../../Components/Navbar/Navbar'
-import './Home.css'
-import ford from '../../assets/ford.avif'
+import axios from "../../services/instance";
+import { useEffect, useState } from "react";
+import HomeDealer from "../HomeDealer/HomeDealer";
+import HomeCustomer from "../HomeCustomer/HomeCustomer";
+import HomeAdmin from "../HomeAdmin/HomeAdmin";
 
 function Home() {
-    return (
-        <>
-            <Navbar />
-            <div className='main-body'>
-                <img src={ford} alt="" />
-            </div>
-        </>
-    )
+    const [role, setRole] = useState<string>();
+
+    useEffect(() => {
+        axios.get('/users/home')
+            .then((res) => {
+                setRole(res.data.role);
+            })
+            .catch((error) => {
+                console.error("Error fetching role:", error);
+            });
+    }, []);
+
+    // Render conditionally based on the role state
+    switch (role) {
+        case 'dealer':
+            return <HomeDealer />;
+        case 'customer':
+            return <HomeCustomer />;
+        case '_admin':
+            return <HomeAdmin />;
+        default:
+            return <>Normal HomePage</>;
+    }
 }
 
-export default Home
+export default Home;

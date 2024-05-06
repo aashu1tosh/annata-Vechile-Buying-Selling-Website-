@@ -39,10 +39,10 @@ const Login = () => {
             <form onSubmit={handleSubmit}>
 
               <label >Email Address:</label><br />
-              <input type="email" onChange={(e) => { setEmail(e.target.value) }} /><br />
+              <input type="email" onChange={(e) => { setEmail(e.target.value) }} required/><br />
 
               <label htmlFor="">Password</label><br />
-              <input type="password" onChange={(e) => { setPassword(e.target.value) }} /><br />
+              <input type="password" onChange={(e) => { setPassword(e.target.value) }} required/><br />
 
               <button type="submit">Login</button>
             </form>
