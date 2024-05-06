@@ -1,0 +1,26 @@
+nav {
+    background-color: black;
+    width: 100%;
+    color: white;
+    padding: 10px;
+    font-size: 24px;
+}
+
+nav .nav-right {
+    float: right;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+nav .nav-right ul li{
+    list-style: none;
+    display: inline-block;
+    padding: 5px 15px;
+    text-decoration: none;
+    color: white;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+}

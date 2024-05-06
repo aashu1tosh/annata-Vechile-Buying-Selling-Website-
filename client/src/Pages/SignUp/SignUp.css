@@ -1,0 +1,28 @@
+.main-signup-form {
+    display: flex;
+    flex-direction: column;
+    /* background-color: tomato; */
+    height: 80vh;
+    width: 40vw;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.main-signup {
+    font-size: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+
+}
+
+.main-signup button {
+    margin: 10px;
+    padding: 10px 30px;
+    background-color: black;
+    border-radius: 15px;
+    color: white;
+}
