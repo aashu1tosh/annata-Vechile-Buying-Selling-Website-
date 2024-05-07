@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import HomeDealer from "../HomeDealer/HomeDealer";
 import HomeCustomer from "../HomeCustomer/HomeCustomer";
 import HomeAdmin from "../HomeAdmin/HomeAdmin";
+import Navbar from "../../Components/Navbar/Navbar";
 
 function Home() {
     const [role, setRole] = useState<string>();
@@ -11,16 +12,16 @@ function Home() {
         const token: string|null = localStorage.getItem('user');
         try {
         console.log("Request sent")
-        axios.get('/user/auth', { headers: { Authorization: `Bearer ${token}` } })
+        axios.get('/user/role', { headers: { Authorization: `Bearer ${token}` } })
             .then((res) => {
                 console.log(res);
-                setRole(res.data.user.role);
+                setRole(res.data.role);
             })
             .catch((error) => {
                 console.error("Error fetching role:", error);
             });
         } catch {
-            console.log('home page try block failed')
+            console.log('Home page try block failed')
         }
     });
 
@@ -32,7 +33,7 @@ function Home() {
         case '_admin':
             return <HomeAdmin />;
         default:
-            return <>Normal HomePage</>;
+            return <><Navbar />Normal HomePage</>;
     }
 }
 

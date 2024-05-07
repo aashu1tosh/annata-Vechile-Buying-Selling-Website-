@@ -87,28 +87,47 @@ const loginUser = async (req: Request, res: Response) => {
     }
 }
 
-const auth = async (req:Request, res:Response) => {
-        // const token = req.body.token;
-        const authHeader = req.headers.authorization;
-        const token = authHeader?.split(' ')[1];
-        if (token) {
-            const decoded = jwt.verify(token, process.env.JSON_SECRET_KEY);
-            console.log(decoded, 'decoded');
-            const user: BasicInfo = await User.findById({ _id: decoded.userId });
+// const getRole = async (req: Request, res: Response) => {
+//     const authHeader = req.headers.authorization;
+//     const token = authHeader?.split(' ')[1];
+//     if (token) {
+//         try {
+//             const decoded = jwt.verify(token, process.env.JSON_SECRET_KEY);
+//             console.log(decoded, 'decoded');
+//             console.log(decoded.userId, 'decoded', typeof(decoded.userId))
+//             const user: BasicInfo = await User.findById({ _id: decoded.userId });
+//             res.status(200).json({
+//                 "role": user.role,
+//             })
+//         } catch (error) {
+//             console.error(error)
+//             res.status(404).json({
+//                 message: "Login Expired"
+//             })
+//         }
+//     }
+// }
+
+const getRole = async (req: any, res: Response) => {
+        try {
+            const id:string = res.locals._id;
+            // console.log(id, 'id', typeof(id));
+            const user: BasicInfo = await User.findById({ _id: id});
             res.status(200).json({
-                user
+                "role": user.role,
+            })
+            
+        } catch (error) {
+            console.error(error)
+            res.status(404).json({
+                message: "Login Expired"
             })
         }
-        else {
-            res.status(400).json({
-                login: false,
-            })
-        }
-    }
+}
 
 
 module.exports = {
     createUser,
     loginUser,
-    auth
+    getRole
 }
