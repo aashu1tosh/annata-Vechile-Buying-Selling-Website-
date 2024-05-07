@@ -8,16 +8,22 @@ function Home() {
     const [role, setRole] = useState<string>();
 
     useEffect(() => {
-        axios.get('/users/home')
+        const token: string|null = localStorage.getItem('user');
+        try {
+        console.log("Request sent")
+        axios.get('/user/auth', { headers: { Authorization: `Bearer ${token}` } })
             .then((res) => {
-                setRole(res.data.role);
+                console.log(res);
+                setRole(res.data.user.role);
             })
             .catch((error) => {
                 console.error("Error fetching role:", error);
             });
-    }, []);
+        } catch {
+            console.log('home page try block failed')
+        }
+    });
 
-    // Render conditionally based on the role state
     switch (role) {
         case 'dealer':
             return <HomeDealer />;

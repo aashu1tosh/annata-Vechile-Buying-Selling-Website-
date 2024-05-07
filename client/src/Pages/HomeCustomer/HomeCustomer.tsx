@@ -2,7 +2,7 @@ import Navbar from '../../Components/Navbar/Navbar'
 import './HomeCustomer.css'
 
 
-function Home() {
+function HomeCustomer() {
     return (
         <>
             <Navbar />
@@ -13,4 +13,4 @@ function Home() {
     )
 }
 
-export default Home
+export default HomeCustomer
