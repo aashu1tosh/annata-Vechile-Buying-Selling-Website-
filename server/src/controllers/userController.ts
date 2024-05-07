@@ -1,4 +1,4 @@
-import { Request, Response } from "express"
+import { Request, Response, response } from "express"
 const bcrypt = require('bcrypt')
 const User = require('../models/userModel')
 const jwt = require('jsonwebtoken')
@@ -42,21 +42,6 @@ const loginUser = async (req: Request, res: Response) => {
         const { email, password }: UserCredentials = req.body;
         const user = await User.findOne({ email });
 
-        // Working code till
-        // if(user) {
-        //     const isValid:boolean = await bcrypt.compare(password, user.password);
-        //     console.log(isValid)
-        //     if(isValid){
-        //         res.status(200).json({
-        //             message: "Login Successful"
-        //         })
-        //     } else {
-        //         res.status(400).json({
-        //             message: "something went wrong"
-        //         })
-        //     }
-        // }
-
         //works till here
 
         if (!user) {
@@ -87,47 +72,43 @@ const loginUser = async (req: Request, res: Response) => {
     }
 }
 
-// const getRole = async (req: Request, res: Response) => {
-//     const authHeader = req.headers.authorization;
-//     const token = authHeader?.split(' ')[1];
-//     if (token) {
-//         try {
-//             const decoded = jwt.verify(token, process.env.JSON_SECRET_KEY);
-//             console.log(decoded, 'decoded');
-//             console.log(decoded.userId, 'decoded', typeof(decoded.userId))
-//             const user: BasicInfo = await User.findById({ _id: decoded.userId });
-//             res.status(200).json({
-//                 "role": user.role,
-//             })
-//         } catch (error) {
-//             console.error(error)
-//             res.status(404).json({
-//                 message: "Login Expired"
-//             })
-//         }
-//     }
-// }
-
-const getRole = async (req: any, res: Response) => {
+const getAll = async (req: Request, res: Response) => {
+    if (res.locals.role === '_admin') {
         try {
-            const id:string = res.locals._id;
-            // console.log(id, 'id', typeof(id));
-            const user: BasicInfo = await User.findById({ _id: id});
+            const users = await User.find({_id: {$ne: process.env.ADMIN_OBJECT_ID}}, '-password').exec();
             res.status(200).json({
-                "role": user.role,
+                sucess: true,
+                users
             })
-            
         } catch (error) {
-            console.error(error)
-            res.status(404).json({
-                message: "Login Expired"
+            res.status(400).json({
+                sucess: false,
+                message: "Couldn't load users"
             })
         }
+    }
+}
+
+const getRole = async (req: any, res: Response) => {
+    try {
+        const id: string = res.locals._id;
+        const role: string = res.locals.role;
+        res.status(200).json({
+            "role": role,
+        })
+
+    } catch (error) {
+        console.error(error)
+        res.status(404).json({
+            message: "Login Expired"
+        })
+    }
 }
 
 
 module.exports = {
     createUser,
     loginUser,
-    getRole
+    getRole,
+    getAll
 }

@@ -1,7 +1,7 @@
 import express, {Router, Request, Response} from 'express'
 
 
-const { createUser, loginUser, getRole } = require('../controllers/userController');
+const { createUser, loginUser, getRole, getAll} = require('../controllers/userController');
 const {verifyToken} = require('../middleware/userAuthMiddleware')
 
 
@@ -20,5 +20,6 @@ router.post('/login', loginUser)
 
 router.get('/role', verifyToken, getRole)
 
+router.get('/getall', verifyToken, getAll);
 
 module.exports = router

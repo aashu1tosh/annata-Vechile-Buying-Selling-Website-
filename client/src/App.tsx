@@ -16,6 +16,7 @@ function App() {
           <Route path='/login' element={<Login />}></Route>
           <Route path='/signup' element={<SignUp />}></Route>
           <Route path='/' element={<Home />}></Route>
+          <Route path='/*' element={<>Page Not Found</>}></Route>
           {/* <Route path='/' element={<ProtectedRoutes>
               <HomeCustomer />
           </ProtectedRoutes>}></Route> */}

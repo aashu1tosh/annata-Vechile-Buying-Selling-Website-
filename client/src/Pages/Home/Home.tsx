@@ -18,10 +18,10 @@ function Home() {
                 setRole(res.data.role);
             })
             .catch((error) => {
-                console.error("Error fetching role:", error);
+                console.log("Error fetching role:", error);
             });
         } catch {
-            console.log('Home page try block failed')
+            console.log('Home page try block failed');
         }
     });
 
