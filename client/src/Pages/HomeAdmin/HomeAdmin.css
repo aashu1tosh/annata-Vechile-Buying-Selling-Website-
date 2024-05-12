@@ -1,0 +1,45 @@
+.users-box ul li {
+    border: 1px solid rgba(150, 143, 49, 0.596);
+    list-style: none;
+    margin: 20px;
+}
+
+.users-box ul li button {
+    padding: 10px 20px;
+    margin: 10px 20px;
+    border-radius: 15px;
+
+}
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* semi-transparent black */
+}
+
+.center-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    height: 30vh;
+    width: 30vh;
+}
+
+
+
+
+#change-password {
+    background-color: rgb(16, 207, 16);
+}
+
+#delete-user {
+    background-color: tomato;
+}

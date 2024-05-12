@@ -42,7 +42,7 @@ const loginUser = async (req: Request, res: Response) => {
         const { email, password }: UserCredentials = req.body;
         const user = await User.findOne({ email });
 
-        //works till here
+        //works till hererole
 
         if (!user) {
             return res.status(400).json({
@@ -56,7 +56,6 @@ const loginUser = async (req: Request, res: Response) => {
                 error: "Incorrect password"
             })
         }
-        console.log(process.env.JSON_SECRET_KEY)
         const token = jwt.sign({ userId: user._id }, process.env.JSON_SECRET_KEY, {
             expiresIn: '1h',
         });
@@ -75,7 +74,7 @@ const loginUser = async (req: Request, res: Response) => {
 const getAll = async (req: Request, res: Response) => {
     if (res.locals.role === '_admin') {
         try {
-            const users = await User.find({_id: {$ne: process.env.ADMIN_OBJECT_ID}}, '-password').exec();
+            const users = await User.find({ _id: { $ne: process.env.ADMIN_OBJECT_ID } }, '-password -updatedAt -createdAt -__v').exec();
             res.status(200).json({
                 sucess: true,
                 users
@@ -105,10 +104,60 @@ const getRole = async (req: any, res: Response) => {
     }
 }
 
+const deleteUser = async (req: Request, res: Response) => {
+    const id: string = req.params.id;
+    try {
+        if (res.locals.role === '_admin') {
+            await User.findByIdAndDelete(id).then(() => {
+                res.status(200).json({
+                    success: true,
+                    message: "User Delete Successfully"
+                })
+            }).catch(() => {
+                res.status(400).json({
+                    sucess: false,
+                    message: "Somethings Went Wrong"
+                })
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            sucess: false,
+            message: "Server Error"
+        })
+    }
+}
+
+const changePassword = async (req: Request, res: Response) => {
+    const id: string = req.params.id;
+    const password = req.body.password;
+    try {
+        if (res.locals.role == '_admin') {
+            await User.findByIdAndUpdate(id, { password: await bcrypt.hash(password, 10) }).then(() => {
+                res.status(200).json({
+                    success: true,
+                    message: "Password Change Successfully"
+                })
+            }).catch(() => {
+                res.status(400).json({
+                    success: false,
+                    message: 'Password Change Unscuccessful!'
+                })
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Server Error'
+        })
+    }
+}
 
 module.exports = {
     createUser,
     loginUser,
     getRole,
-    getAll
+    getAll,
+    deleteUser,
+    changePassword
 }
