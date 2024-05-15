@@ -9,17 +9,17 @@ function Home() {
     const [role, setRole] = useState<string>();
 
     useEffect(() => {
-        const token: string|null = localStorage.getItem('user');
+        const token: string | null = localStorage.getItem('user');
         try {
-        console.log("Request sent")
-        axios.get('/user/role', { headers: { Authorization: `Bearer ${token}` } })
-            .then((res) => {
-                console.log(res);
-                setRole(res.data.role);
-            })
-            .catch((error) => {
-                console.log("Error fetching role:", error);
-            });
+            console.log("Request sent")
+            axios.get('/user/role', { headers: { Authorization: `Bearer ${token}` } })
+                .then((res) => {
+                    console.log(res);
+                    setRole(res.data.role);
+                })
+                .catch((error) => {
+                    console.log("Error fetching role:", error);
+                });
         } catch {
             console.log('Home page try block failed');
         }
@@ -27,13 +27,13 @@ function Home() {
 
     switch (role) {
         case 'dealer':
-            return <HomeDealer />;
+            return <><Navbar role={role} /> <HomeDealer /></>;
         case 'customer':
-            return <HomeCustomer />;
+            return <><Navbar role={role} /> <HomeCustomer /></>;
         case '_admin':
-            return <HomeAdmin />;
+            return <><Navbar role={role} /> <HomeAdmin /></>;
         default:
-            return <><Navbar />Normal HomePage</>;
+            return <><Navbar/>Normal HomePage</>;
     }
 }
 

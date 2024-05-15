@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import axios from "../../services/instance"
 import './HomeAdmin.css'
+import { FaWindowClose } from "react-icons/fa";
+
 
 interface User {
   _id: string,
@@ -107,7 +109,7 @@ function HomeAdmin() {
         <>
           <div className="backdrop" onClick={closeDialog}></div>
           <dialog open className="center-dialog">
-            <button autoFocus onClick={closeDialog} style={{ float: "right" }}>Close</button><br />
+            <FaWindowClose onClick={closeDialog} size={25} style={{ float: "right" }}/><br />
             <p>User Information:</p>
             <p>Name: {selectedUser.name}</p>
             <p>Email: {selectedUser.email}</p>
@@ -126,19 +128,5 @@ function HomeAdmin() {
 
   )
 }
-
-
-{/* <input type="password" name="" id={user.email}
-                    placeholder="Enter the new password"
-                    minLength={8}
-                    onKeyDown={(e: any) => {
-                      if (e.key === "Enter") {
-                          const password: string= e.target.value;
-                          setNewPassword(password);
-                          e.target.value = '';
-                          handlePasswordChangeButton(user._id);
-                      }
-                  }} />
-                  <button id="change-password">Change Password</button> */}
 
 export default HomeAdmin

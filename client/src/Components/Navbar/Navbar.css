@@ -24,3 +24,10 @@ nav a {
     color: white;
     text-decoration: none;
 }
+
+.logout-button {
+    border-radius: 12px;
+    background-color: tomato;
+    color: white;
+    box-shadow: none;
+}
