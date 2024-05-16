@@ -1,4 +1,4 @@
-import express, {Router, Request, Response} from 'express'
+import express, {Router} from 'express'
 
 
 const { createUser, loginUser, getRole, getAll, deleteUser, changePassword} = require('../controllers/userController');
@@ -11,12 +11,6 @@ const router: Router = express.Router();
 router.post('/signup', createUser)
 
 router.post('/login', loginUser)
-
-// router.get('/auth', verifyToken, (req:Request, res:Response) => {
-//     res.status(200).json({
-//         message: 'Protected Route Accessed'
-//     })
-// })
 
 router.get('/role', verifyToken, getRole);
 

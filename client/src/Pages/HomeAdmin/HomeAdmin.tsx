@@ -15,7 +15,7 @@ interface User {
 function HomeAdmin() {
 
   const [users, setUsers] = useState<User[]>([]);
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<User>();
   useEffect(fetchData, []);
 
@@ -93,9 +93,7 @@ function HomeAdmin() {
                   <div>Name: {user.name}</div>
                   <div>Email: {user.email}</div>
                   <div>Role: {user.role}</div>
-
                   <button onClick={() => openDialog(user)} id='change-password'>Change Password</button>
-
                   <button id="delete-user" onClick={() => deleteUserButton(user._id)}>Delete User</button>
                 </li>
               ))}

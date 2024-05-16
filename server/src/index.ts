@@ -1,24 +1,29 @@
 import express, {Request, Response} from 'express'
 import mongoose, { models } from 'mongoose';
+// import morgan from 'morgan';
 
 
 const dotenv = require('dotenv')
 const cors = require('cors')
+const morgan = require('morgan')
 const userRoute = require('./routes/userRoutes')
+const carRoute = require('./routes/carRoutes')
 
 
 dotenv.config();
 const app = express();
 
 const port = process.env.BACKEND_PORT 
-app.use(express.json())
-app.use(cors())
+app.use(express.json());
+app.use(cors());
+app.use(morgan('dev'));
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello, TypeScript with Express!');
 });
 
 
-app.use('/api/v1/user', userRoute)
+app.use('/api/v1/user', userRoute);
+app.use('/api/v1/car', carRoute);
 
 
 mongoose.connect(process.env.MONGO_URL as string)

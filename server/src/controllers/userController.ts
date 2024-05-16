@@ -1,26 +1,9 @@
-import { Request, Response, response } from "express"
+import { Request, Response } from "express"
 const bcrypt = require('bcrypt')
 const User = require('../models/userModel')
 const jwt = require('jsonwebtoken')
 
-
-interface UserCredentials {
-    email: string,
-    password: string,
-}
-
-interface IUser {
-    name: string;
-    email: string;
-    password: string;
-    role: string
-}
-
-interface BasicInfo {
-    id: string,
-    name: string,
-    role: string
-}
+import { UserCredentials,  IUser} from "../interface/user.interface"
 
 const createUser = async (req: Request, res: Response) => {
     try {
@@ -41,15 +24,12 @@ const loginUser = async (req: Request, res: Response) => {
     try {
         const { email, password }: UserCredentials = req.body;
         const user = await User.findOne({ email });
-
         //works till hererole
-
         if (!user) {
             return res.status(400).json({
                 error: "user not found",
             })
         }
-
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (!passwordMatch) {
             return res.status(401).json({
@@ -59,13 +39,11 @@ const loginUser = async (req: Request, res: Response) => {
         const token = jwt.sign({ userId: user._id }, process.env.JSON_SECRET_KEY, {
             expiresIn: '1h',
         });
-
         res.status(200).json({
             message: "Success",
             user,
             token
         })
-
     } catch (error: any) {
         res.status(500).json({ message: error.message })
     }

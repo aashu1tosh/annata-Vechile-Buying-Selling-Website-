@@ -1,11 +1,6 @@
 import mongoose from "mongoose";
+import { IUser } from "../interface/user.interface";
 
-interface IUser {
-    name: string;
-    email: string;
-    password: string;
-    role: string;
-}
 
 const userSchema = new mongoose.Schema<IUser>({
     name: { type: String, required: true },

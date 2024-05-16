@@ -1,6 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom'
 import './Navbar.css'
-import 'bootstrap/dist/css/bootstrap.min.css'
 
 interface NavbarProps {
     role?: string; // The '?' indicates that the prop is optional

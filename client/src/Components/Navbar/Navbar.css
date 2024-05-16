@@ -4,18 +4,26 @@ nav {
     color: white;
     padding: 10px;
     font-size: 24px;
-}
-
-nav .nav-right {
-    float: right;
-    flex-wrap: wrap;
+    display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
+/* nav .nav-right {
+    right: 0;
+} */
+nav .nav-right ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom:0!important;
+    padding-left: 0!important;
+}
 nav .nav-right ul li{
     list-style: none;
     display: inline-block;
-    padding: 5px 15px;
+    padding: 0px 15px;
     text-decoration: none;
     color: white;
 }
@@ -30,4 +38,6 @@ nav a {
     background-color: tomato;
     color: white;
     box-shadow: none;
+    padding: 10px 15px;
+    cursor: pointer;
 }
