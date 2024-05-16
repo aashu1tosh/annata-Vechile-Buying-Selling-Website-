@@ -1,9 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './HomeDealer.css'
 import { FaWindowClose } from 'react-icons/fa';
 import axios from '../../services/instance';
 
 function HomeDealer() {
+  // for storing the data that we fetched
+  const [carsData, setCarsData] = useState<any[]>([]);
+  // for dialog add part and 
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [year, setYear] = useState<number | null>(null);
   const [manufacturer, setManufacturer] = useState<string | null>(null);
@@ -28,10 +31,36 @@ function HomeDealer() {
       })
   }
 
+  useEffect(()=> {
+    const token = localStorage.getItem('user')
+    axios.get('/car/viewaddedcars', {headers: {Authorization: `Bearer ${token}`}})
+      .then((res) => {
+          console.log(res);
+          setCarsData(res.data.cars);
+          //printing setCarsData
+          console.log("Printing cars data", carsData);
+      })
+  }, [])
+
   return (
     <>
       <div>
         <button className="add-car-button" onClick={() => { setDialogOpen(true) }}>Create Ad for Car</button>
+      </div>
+
+      <div>
+        {
+          carsData.map((data, index) => (
+            <div className="" key={index} style={{border: '1px solid red', margin: '10px'}}>
+              <p>{data.year}</p>
+              <p>{data.manufacturer}</p>
+              <p>{data.model}</p>
+              <p>{data.mileage}</p>
+              <p>{data.engine}</p>
+              <p>{data.description}</p>
+            </div>
+          ))
+        }
       </div>
 
       {

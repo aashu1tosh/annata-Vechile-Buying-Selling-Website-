@@ -16,7 +16,8 @@ const app = express();
 const port = process.env.BACKEND_PORT 
 app.use(express.json());
 app.use(cors());
-app.use(morgan('dev'));
+// app.use(morgan('dev',));
+app.use(morgan('common'))
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello, TypeScript with Express!');
 });
