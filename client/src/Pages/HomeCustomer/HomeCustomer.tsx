@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import './HomeCustomer.css'
 import axios from './../../services/instance'
+import { Link } from 'react-router-dom';
 
 
 function HomeCustomer() {
@@ -18,14 +19,16 @@ function HomeCustomer() {
     return (
         <>
             <div className='main-body'>
-                {
+                {   
                     data.map((d, index) => (
-                        <div className="" key={index}>
-                            <p>{d.year}</p>
-                            <p>{d.manufacturer}</p>
-                            <p>{d.model}</p>
-                            <p>{d.description}</p>
+                        <Link to={`/cars/${d._id}`} key={index}>
+                        <div className="fetched-cars" >
+                            <p>Year: {d.year}</p>
+                            <p>Manufacturer: {d.manufacturer}</p>
+                            <p>Model: {d.model}</p>
+                            <p>Description: <br /> {d.description}</p>
                         </div>
+                        </Link>
                     ))
                 }
             </div>

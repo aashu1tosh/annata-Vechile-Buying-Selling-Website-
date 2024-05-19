@@ -4,6 +4,8 @@ import { ICar } from "../interface/car.interface";
 
 const Car = require('../models/carModel')
 
+const User = require('../models/userModel')
+
 const createCar = async (req: Request, res: Response) => {
     try {
         const id: string = res.locals._id;
@@ -65,8 +67,30 @@ const getAllCars = async (req: Request, res: Response) => {
     }
 }
 
+const getParticularCar = async (req: Request, res: Response) => {
+    try {
+        const role: string = res.locals.role;
+        const {id} = req.params;
+        console.log(id);
+        if (role === 'customer') {
+            const cars = await Car.findById(id, '-updatedAt -__v')
+            const dealerId =cars.dealerId
+            const user = await User.findById({_id:dealerId}, '-password')
+            res.status(200).json({
+                success: true,
+                message: "Car and Dealers Detail",
+                cars,
+                user
+            })
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 module.exports = {
     createCar,
     getAddedCars,
-    getAllCars
+    getAllCars,
+    getParticularCar
 }

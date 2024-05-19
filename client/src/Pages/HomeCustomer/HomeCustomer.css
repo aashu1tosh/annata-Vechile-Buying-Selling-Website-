@@ -1,15 +1,14 @@
 .main-body {
-    display: flex;
-    
-    font-size: 48px;
-    align-items: center;
-    justify-content: center;
-    margin-left: auto;
-    margin-right: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+    grid-column-gap: 16px;
+    grid-row-gap: 30px;
+    margin-top: 15px;
 }
 
-.main-body img {
-    z-index: -1;
-    height: 100vh;
-    width: 100vw;
+
+
+.fetched-cars {
+    border: 2px solid red;
+    margin: 10px 15px;
 }
