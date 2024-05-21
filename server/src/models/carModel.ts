@@ -3,7 +3,7 @@ import { ICar } from "../interface/car.interface";
 
 
 const carSchema = new mongoose.Schema<ICar>({
-    dealerId: {type: String, required: true},
+    dealerId: { type: mongoose.Schema.Types.ObjectId, ref: 'user', required: true },
     year: {type: Number, required: true},
     manufacturer: {type: String, required: true},
     model: {type: String, required: true},
@@ -17,4 +17,3 @@ const carSchema = new mongoose.Schema<ICar>({
 const Car = mongoose.model<ICar>('car',carSchema)
 
 module.exports = Car
-

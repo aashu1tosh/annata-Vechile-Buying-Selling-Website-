@@ -5,7 +5,6 @@ import { useParams } from 'react-router-dom'
 
 const CarDetail = () => {
     const [cars, setCars] = useState<any>([]);
-    const [user, setUser] = useState<any>([]);
     const { id } = useParams();
 
     useEffect(() => {
@@ -13,10 +12,8 @@ const CarDetail = () => {
         axios.get(`/car/${id}`, { headers: { Authorization: `Bearer ${token}` } })
             .then((res) => {
                 console.log(res.data);
-                setCars(res.data.cars);
-                setUser(res.data.user);
+                setCars(res.data.car);
                 console.log(cars);
-                console.log(user);
             })
             .catch((error) => {
                 console.log("failed in axios.get", error)
@@ -30,8 +27,8 @@ const CarDetail = () => {
                 <p>{cars.manufacturer}</p>
                 <p>{cars.model}</p>
                 <p>{cars.description}</p>
-                <p>Dealers Name: {user.name}</p>
-                <p>Dealers Email: {user.email}</p>
+                <p>Dealers Name: {cars.dealerId?.name}</p>
+                <p>Dealers Email: {cars.dealerId?.email}</p>
             </div>
         </div>
     )

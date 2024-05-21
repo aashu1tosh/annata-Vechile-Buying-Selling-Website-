@@ -27,7 +27,20 @@ function HomeDealer() {
       }).catch((err) => {
         console.log("Error occured");
         console.log(err);
-        alert("Error Occurred");
+        alert("Error Occurredin handle submit");
+      })
+  }
+
+  const deleteCar = async (id: string) => {
+    // console.log("Delete car pressed");
+    const token = localStorage.getItem('user');
+    await axios.delete(`/car/${id}`, { headers: { Authorization: `Bearer ${token}` } })
+      .then((res) => {
+        console.log(res);
+        alert(res.data.message);
+      }).catch((err) => {
+        alert("Error occured in delete");
+        console.log(err);
       })
   }
 
@@ -58,6 +71,8 @@ function HomeDealer() {
               <p>{data.mileage}</p>
               <p>{data.engine}</p>
               <p>{data.description}</p>
+              {/* <p>{data._id}</p> */}
+              <button onClick={() => deleteCar(data._id)}>Delete Car</button>
             </div>
           ))
         }

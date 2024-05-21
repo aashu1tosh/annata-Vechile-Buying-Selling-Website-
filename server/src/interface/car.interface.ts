@@ -1,5 +1,7 @@
+import { ObjectId } from "mongoose";
+
 export interface ICar {
-    dealerId: string,
+    dealerId: ObjectId,
     year: number,
     manufacturer: string,
     model: string,
