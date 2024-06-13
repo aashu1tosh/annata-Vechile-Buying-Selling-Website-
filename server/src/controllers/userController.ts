@@ -3,17 +3,20 @@ const bcrypt = require('bcrypt')
 const User = require('../models/userModel')
 const jwt = require('jsonwebtoken')
 
-import { UserCredentials,  IUser} from "../interface/user.interface"
+import { IUser, UserCredentials } from "../interface/user.interface"
 
 const createUser = async (req: Request, res: Response) => {
     try {
         let user: IUser = req.body
         const hash = await bcrypt.hash(user.password, 10);
         user.password = hash
-        user = await User.create(user);
+
+        const userResponse = await User.create(user);
+        console.log(userResponse, "userResponse");
+        const { password, ...reset } = user;
         res.status(200).json({
             message: "User created Successfully",
-            "user": user
+            user: reset
         })
     } catch (error: any) {
         res.status(500).json({ message: error.message })
@@ -24,7 +27,7 @@ const loginUser = async (req: Request, res: Response) => {
     try {
         const { email, password }: UserCredentials = req.body;
         const user = await User.findOne({ email });
-        //works till hererole
+        //works till
         if (!user) {
             return res.status(400).json({
                 error: "user not found",

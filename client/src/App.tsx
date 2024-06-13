@@ -18,21 +18,12 @@ function App() {
           <Route path='/*' element={<>Page Not Found</>}></Route>
           {/* <Route path='/' element={<ProtectedRoutes>
               <HomeCustomer />
-          </ProtectedRoutes>}></Route> */}React,
+          </ProtectedRoutes>}></Route> */}
         </Routes>
       </BrowserRouter>
     </>
   )
 }
-
-// export function ProtectedRoutes(props: { children: any }) {
-
-//   if(localStorage.getItem('user')) {
-//     return props.children
-//   } else {
-//     return <Navigate to='/login'/>
-//   }
-// }
 
 
 export default App

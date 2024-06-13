@@ -8,6 +8,7 @@
     border: none;
     border-radius: 10px;
 }
+
 .backdrop1 {
     position: fixed;
     top: 0;
@@ -27,10 +28,11 @@
     /* background-color: white; */
     /* padding: 20px; */
     border: 1px solid #ccc;
-    height: 30vh;
+    height: 40vh;
     background-color: tomato;
-    width: 30vh;
+    width: 40vh;
 }
+
 .submit-form-button {
     background-color: greenyellow;
     color: black;
@@ -48,7 +50,7 @@ dialog {
 }
 
 .center-dialog input {
-        margin: 5px;
-        font-size: 16px;
-        text-align: center;
+    margin: 5px;
+    font-size: 16px;
+    text-align: center;
 }

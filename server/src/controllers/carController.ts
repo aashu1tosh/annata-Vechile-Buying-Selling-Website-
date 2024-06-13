@@ -14,7 +14,7 @@ const createCar = async (req: Request, res: Response) => {
             car = await Car.create(car);
             res.status(200).json({
                 success: true,
-                message: "sucess",
+                message: "success",
                 car
             })
         } else {
@@ -24,7 +24,7 @@ const createCar = async (req: Request, res: Response) => {
             })
         }
     } catch (error) {
-        res.status(200).json({
+        res.status(400).json({
             success: false,
             message: "failed",
             error
