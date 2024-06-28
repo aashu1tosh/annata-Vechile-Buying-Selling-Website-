@@ -122,7 +122,7 @@ const changePassword = async (req: Request, res: Response) => {
             }).catch(() => {
                 res.status(400).json({
                     success: false,
-                    message: 'Password Change Unscuccessful!'
+                    message: 'Password Change Unsuccessful!'
                 })
             })
         }

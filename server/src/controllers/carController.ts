@@ -1,35 +1,60 @@
-import { Request, Response } from "express"
-import { ICar } from "../interface/car.interface";
+import { Request, Response } from "express";
 import { ObjectId } from "mongoose";
+import { ICar } from "../interface/car.interface";
+import upload from "../config/mutler.config";
 
 
 const Car = require('../models/carModel')
 const createCar = async (req: Request, res: Response) => {
-    try {
-        const id: ObjectId = res.locals._id;
-        const role: string = res.locals.role;
-        req.body.dealerId = id;
-        if (id && role === 'dealer') {
-            let car: ICar = req.body;
-            car = await Car.create(car);
-            res.status(200).json({
-                success: true,
-                message: "success",
-                car
-            })
-        } else {
-            res.status(403).json({
+    upload.single('carImage')(req, res, async (err) => {
+        if (err) {
+            return res.status(400).json({
                 success: false,
-                message: "Authorization Failed",
-            })
+                message: 'Image upload failed',
+                error: err
+            });
         }
-    } catch (error) {
-        res.status(400).json({
-            success: false,
-            message: "failed",
-            error
-        })
-    }
+
+        try {
+            const id: ObjectId = res.locals._id;
+            const role: string = res.locals.role;
+            if (id && role === 'dealer') {
+                const { year, manufacturer, model, mileage, engine, description } = req.body;
+
+                const car = new Car({
+                    dealerId: id,
+                    year: year,
+                    manufacturer: manufacturer,
+                    model: model,
+                    mileage: mileage,
+                    engine: engine,
+                    description: description,
+                    image: {
+                        data: req?.file?.buffer,
+                        contentType: req?.file?.mimetype
+                    }
+                });
+
+                const savedCar = await car.save();
+                res.status(200).json({
+                    success: true,
+                    message: "success",
+                    main: savedCar
+                });
+            } else {
+                res.status(403).json({
+                    success: false,
+                    message: "Authorization Failed",
+                });
+            }
+        } catch (error) {
+            res.status(400).json({
+                success: false,
+                message: "failed",
+                main: error
+            });
+        }
+    });
 }
 
 const getAddedCars = async (req: Request, res: Response) => {

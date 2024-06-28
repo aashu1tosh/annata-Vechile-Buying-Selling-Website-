@@ -33,11 +33,25 @@ function HomeDealer() {
 
     // Append the file if it exists
     if (file) {
-      formData.append('file', file);
+      // Validate file type
+      const allowedTypes = ['image/jpeg', 'image/png'];
+      if (!allowedTypes.includes(file.type)) {
+        alert('Only .jpeg and .png files are allowed!');
+        return;
+      }
+
+      // Validate file size
+      const maxSize = 1024 * 1024 * 5; // 5MB
+      if (file.size > maxSize) {
+        alert('File size must be less than 5MB!');
+        return;
+      }
+
+      formData.append('carImage', file);
     }
 
     // Debug: Log FormData entries
-    for (let [key, value] of formData.entries()) {
+    for (const [key, value] of formData.entries()) {
       console.log(`${key}: ${value}`);
     }
 
@@ -52,10 +66,11 @@ function HomeDealer() {
       setDialogOpen(false);
     } catch (err) {
       console.log("Error occurred");
-      console.log(err.response.data);
-      alert("Error Occurred in handle submit");
+      console.log(err.response?.data || err.message);
+      // alert("Error Occurred in handle submit");
     }
   };
+
 
 
   const deleteCar = async (id: string) => {
@@ -64,9 +79,9 @@ function HomeDealer() {
     await axios.delete(`/car/${id}`, { headers: { Authorization: `Bearer ${token}` } })
       .then((res) => {
         console.log(res);
-        alert(res.data.message);
+        // alert(res.data.message);
       }).catch((err) => {
-        alert("Error occured in delete");
+        // alert("Error occured in delete");
         console.log(err);
       })
   }
@@ -82,6 +97,17 @@ function HomeDealer() {
       })
   }, [])
 
+  const arrayBufferToBase64 = (buffer: any) => {
+    let binary = '';
+    const bytes = new Uint8Array(buffer);
+    const len = bytes.byteLength;
+    for (let i = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
+  };
+
+
   return (
     <>
       <div>
@@ -89,20 +115,21 @@ function HomeDealer() {
       </div>
 
       <div>
-        {
-          carsData.map((data, index) => (
+        {carsData.map((data, index) => {
+          const base64Image = `data:${data.image.contentType};base64,${arrayBufferToBase64(data.image.data.data)}`;
+          return (
             <div className="" key={index} style={{ border: '1px solid red', margin: '10px' }}>
+              <img src={base64Image} alt={`${data.manufacturer} ${data.model}`} style={{ width: '200px', height: 'auto' }} />
               <p>{data.year}</p>
               <p>{data.manufacturer}</p>
               <p>{data.model}</p>
               <p>{data.mileage}</p>
               <p>{data.engine}</p>
               <p>{data.description}</p>
-              {/* <p>{data._id}</p> */}
               <button onClick={() => deleteCar(data._id)}>Delete Car</button>
             </div>
-          ))
-        }
+          );
+        })}
       </div>
 
       {

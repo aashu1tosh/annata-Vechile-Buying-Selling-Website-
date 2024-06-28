@@ -25,12 +25,11 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    /* background-color: white; */
+    background: white;
     /* padding: 20px; */
     border: 1px solid #ccc;
-    height: 40vh;
-    background-color: tomato;
-    width: 40vh;
+    height: 400px;
+    width: 400px;
 }
 
 .submit-form-button {
