@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import { NextFunction, Request, Response } from "express";
 const jwt = require('jsonwebtoken')
 const User = require('../models/userModel')
 
@@ -16,7 +16,7 @@ function verifyToken(req: Request, res: Response, next: NextFunction) {
             return res.status(403).json({ message: 'Failed to authenticate token' });
         }
         (res as any).locals._id = decoded.userId;
-        const roleAndId = await User.findOne({_id: decoded.userId}, 'role');
+        const roleAndId = await User.findOne({ _id: decoded.userId }, 'role');
         (res as any).locals.role = roleAndId.role;
         next();
     });

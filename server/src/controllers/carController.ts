@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { ObjectId } from "mongoose";
-import { ICar } from "../interface/car.interface";
 import upload from "../config/mutler.config";
 
 
@@ -87,10 +86,10 @@ const getAllCars = async (req: Request, res: Response) => {
     try {
         const role: string = res.locals.role;
         if (role === 'customer') {
-            const cars = await Car.find({}, '-updatedAt -__v')
+            const cars = await Car.find({ }, '-updatedAt -__v').sort({ createdAt: -1 });
             res.status(200).json({
                 success: true,
-                message: "All cars",
+                message: "All your posted cars",
                 cars
             })
         } else {
@@ -102,7 +101,7 @@ const getAllCars = async (req: Request, res: Response) => {
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: "Something went wrong",
+            message: "Something went south",
         })
     }
 }
@@ -142,7 +141,7 @@ const getParticularCar = async (req: Request, res: Response) => {
         console.log(error)
         res.status(500).json({
             success: false,
-            message: "Something went wrong",
+            message: "Something went wrong from getParticular car",
 
         })
     }
