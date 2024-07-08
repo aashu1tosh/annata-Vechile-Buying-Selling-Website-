@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
-import './HomeCustomer.css'
-import axios from './../../services/instance'
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from './../../services/instance';
+import './HomeCustomer.css';
 
 
 function HomeCustomer() {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [data, setData] = useState<any[]>([]);
 
     useEffect(() => {
@@ -16,6 +17,7 @@ function HomeCustomer() {
             })
     }, [])
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const arrayBufferToBase64 = (buffer: any) => {
         let binary = '';
         const bytes = new Uint8Array(buffer);
